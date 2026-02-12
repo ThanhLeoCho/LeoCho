@@ -1,5 +1,5 @@
--- LeoChoCho Hub - Fake x36 Luck GUI (Draggable + Resizable + Minimize Tab + Sound on Open)
--- Phong ơi paste trực tiếp, full feature nha! 🌈🍀🔊
+-- LeoChoCho Hub - GUI Fake x36 May Mắn (Full Tiếng Việt: Di chuyển + Thay đổi kích thước + Tab nhỏ + Âm thanh)
+-- Phong ơi, bản tiếng Việt hoàn chỉnh nè! 🌈🍀🔊
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -12,16 +12,22 @@ screenGui.Name = "LeoChoChoFakeHub"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = gui
 
--- Notify function (thông báo bật lên)
+-- Âm thanh ding nhẹ
+local sound = Instance.new("Sound")
+sound.SoundId = "rbxassetid://91127717"  -- ding notify Roblox
+sound.Volume = 0.4
+sound.Parent = screenGui
+
+-- Hàm thông báo
 local function showNotify(text)
     local notify = Instance.new("TextLabel")
-    notify.Size = UDim2.new(0, 300, 0, 50)
-    notify.Position = UDim2.new(0.5, -150, 0.1, 0)
+    notify.Size = UDim2.new(0, 280, 0, 45)
+    notify.Position = UDim2.new(0.5, -140, 0.08, 0)
     notify.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
-    notify.BackgroundTransparency = 0.4
+    notify.BackgroundTransparency = 0.5
     notify.Text = text
-    notify.TextColor3 = Color3.fromRGB(200, 255, 200)
-    notify.TextSize = 24
+    notify.TextColor3 = Color3.fromRGB(180, 255, 180)
+    notify.TextSize = 22
     notify.Font = Enum.Font.GothamBold
     notify.Parent = screenGui
     
@@ -29,14 +35,14 @@ local function showNotify(text)
     nCorner.CornerRadius = UDim.new(0, 10)
     nCorner.Parent = notify
     
-    TweenService:Create(notify, TweenInfo.new(0.5), {Position = UDim2.new(0.5, -150, 0.05, 0)}):Play()
-    wait(2)
-    TweenService:Create(notify, TweenInfo.new(1), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-    wait(1)
+    TweenService:Create(notify, TweenInfo.new(0.6, Enum.EasingStyle.Quad), {Position = UDim2.new(0.5, -140, 0.05, 0)}):Play()
+    wait(2.5)
+    TweenService:Create(notify, TweenInfo.new(0.8), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+    wait(0.8)
     notify:Destroy()
 end
 
--- Main Frame
+-- Khung chính
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 340, 0, 180)
 mainFrame.Position = UDim2.new(0.5, -170, 0.5, -90)
@@ -49,7 +55,7 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 16)
 corner.Parent = mainFrame
 
--- Rainbow viền
+-- Viền cầu vồng
 local stroke = Instance.new("UIStroke")
 stroke.Thickness = 3
 stroke.Transparency = 0.1
@@ -75,7 +81,7 @@ spawn(function()
     end
 end)
 
--- Title bar (draggable)
+-- Thanh tiêu đề (kéo để di chuyển)
 local titleBar = Instance.new("Frame")
 titleBar.Size = UDim2.new(1, 0, 0, 35)
 titleBar.BackgroundTransparency = 1
@@ -102,7 +108,7 @@ spawn(function()
     end
 end)
 
--- Draggable
+-- Kéo di chuyển
 local dragging, dragStart, startPos
 titleBar.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
@@ -125,7 +131,7 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Resizable (kéo góc dưới phải)
+-- Thay đổi kích thước (kéo góc dưới phải)
 local resizeHandle = Instance.new("Frame")
 resizeHandle.Size = UDim2.new(0, 20, 0, 20)
 resizeHandle.Position = UDim2.new(1, -20, 1, -20)
@@ -147,19 +153,22 @@ end)
 
 UserInputService.InputChanged:Connect(function(input)
     if resizing and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - resizeHandle.AbsolutePosition
-        local newSize = Vector2.new(math.clamp(mainFrame.AbsoluteSize.X + delta.X, 200, 600), math.clamp(mainFrame.AbsoluteSize.Y + delta.Y, 150, 400))
+        local delta = input.Position - (mainFrame.AbsolutePosition + Vector2.new(mainFrame.AbsoluteSize.X, mainFrame.AbsoluteSize.Y))
+        local newSize = Vector2.new(
+            math.clamp(mainFrame.AbsoluteSize.X + delta.X, 240, 500),
+            math.clamp(mainFrame.AbsoluteSize.Y + delta.Y, 140, 350)
+        )
         mainFrame.Size = UDim2.new(0, newSize.X, 0, newSize.Y)
     end
 end)
 
--- x36 Luck
+-- x36 May Mắn
 local luckyText = Instance.new("TextLabel")
 luckyText.Size = UDim2.new(0.9, 0, 0, 40)
 luckyText.Position = UDim2.new(0.05, 0, 0.25, 0)
 luckyText.BackgroundTransparency = 0.6
 luckyText.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
-luckyText.Text = "x36 Luck 🍀"
+luckyText.Text = "x36 May Mắn 🍀"
 luckyText.TextColor3 = Color3.fromRGB(200, 255, 200)
 luckyText.TextSize = 30
 luckyText.Font = Enum.Font.GothamBlack
@@ -169,13 +178,13 @@ local luckyCorner = Instance.new("UICorner")
 luckyCorner.CornerRadius = UDim.new(0, 10)
 luckyCorner.Parent = luckyText
 
--- Activate toggle
+-- Nút BẬT / ĐÃ BẬT
 local isActivated = false
 local activateBtn = Instance.new("TextButton")
 activateBtn.Size = UDim2.new(0.7, 0, 0, 50)
 activateBtn.Position = UDim2.new(0.15, 0, 0.55, 0)
 activateBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-activateBtn.Text = "ACTIVATE"
+activateBtn.Text = "BẬT"
 activateBtn.TextColor3 = Color3.fromRGB(255,255,255)
 activateBtn.TextSize = 32
 activateBtn.Font = Enum.Font.GothamBlack
@@ -205,15 +214,18 @@ end)
 activateBtn.MouseButton1Click:Connect(function()
     isActivated = not isActivated
     if isActivated then
-        activateBtn.Text = "ACTIVATED"
+        activateBtn.Text = "ĐÃ BẬT"
         TweenService:Create(activateBtn, TweenInfo.new(0.4), {BackgroundColor3 = Color3.fromRGB(0,220,100)}):Play()
+        TweenService:Create(actStroke, TweenInfo.new(0.4), {Thickness = 5}):Play()
     else
-        activateBtn.Text = "ACTIVATE"
+        activateBtn.Text = "BẬT"
         TweenService:Create(activateBtn, TweenInfo.new(0.4), {BackgroundColor3 = Color3.fromRGB(40,40,60)}):Play()
+        TweenService:Create(actStroke, TweenInfo.new(0.4), {Thickness = 3}):Play()
     end
+    sound:Play()
 end)
 
--- Mưa clover
+-- Mưa cỏ 4 lá
 local cloverFolder = Instance.new("Folder")
 cloverFolder.Parent = mainFrame
 
@@ -241,7 +253,7 @@ spawn(function()
     end
 end)
 
--- Close & Minimize Tab
+-- Nút đóng & Tab nhỏ
 local closeBtn = Instance.new("TextButton")
 closeBtn.Size = UDim2.new(0, 30, 0, 30)
 closeBtn.Position = UDim2.new(1, -35, 0, 5)
@@ -249,6 +261,7 @@ closeBtn.BackgroundColor3 = Color3.fromRGB(220,60,60)
 closeBtn.Text = "X"
 closeBtn.TextColor3 = Color3.new(1,1,1)
 closeBtn.TextSize = 22
+closeBtn.Font = Enum.Font.SourceSansBold
 closeBtn.Parent = mainFrame
 
 local closeCorner = Instance.new("UICorner")
@@ -270,13 +283,6 @@ local tabCorner = Instance.new("UICorner")
 tabCorner.CornerRadius = UDim.new(0, 8)
 tabCorner.Parent = minimizeTab
 
--- Sound effect (ding nhẹ khi open/minimize)
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://91127717"  -- ding notify phổ biến Roblox (hoặc thay 1847661821 cho music note vibe)
-sound.Volume = 0.5
-sound.Parent = screenGui
-
--- Close logic
 closeBtn.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
     minimizeTab.Visible = true
@@ -287,11 +293,11 @@ minimizeTab.MouseButton1Click:Connect(function()
     mainFrame.Visible = true
     minimizeTab.Visible = false
     sound:Play()
-    showNotify("LeoChoCho Hub Activated!")
+    showNotify("LeoChoCho Hub Đã Bật!")
 end)
 
--- Open đầu tiên
-showNotify("LeoChoCho Hub Activated!")
+-- Bật đầu tiên
+showNotify("LeoChoCho Hub Đã Bật!")
 sound:Play()
 
-print("LeoChoCho Hub full loaded! Draggable, resizable, minimize tab, sound on open/toggle 🍀🔊")
+print("LeoChoCho Hub tiếng Việt full loaded! Bật/Tắt, di chuyển, thay đổi kích thước, tab nhỏ, âm thanh 🍀🔊")
